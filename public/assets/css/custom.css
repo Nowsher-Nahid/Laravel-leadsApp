@@ -1,0 +1,11 @@
+.edit, .delete, .view {
+    border-radius: 3px !important;
+}
+div.table-responsive>div.dt-container>div.row {
+    margin-bottom: 30px !important;
+}
+/* .user-upload,
+[data-pc-direction=ltr] .rounded-circle,
+.pc-header .user-avtar {
+    border-radius: 5px !important;
+} */
