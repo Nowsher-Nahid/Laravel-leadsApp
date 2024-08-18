@@ -31,6 +31,7 @@
                         <div class="card-body">
                             <form action="{{ route('lead.update', $lead->id) }}" method="POST">
                                 @csrf
+                                <h4 class="mb-4">{{ __('Project Info') }}</h4>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
@@ -50,14 +51,13 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="extra-services">{{ __('Extra Services') }}</label>
-                                            <select class="form-select" id="extra-services" name="services">
-                                                <option value="">{{ __('Select Service') }}</option>
-                                                <option value="Logo & Branding" {{ (old('services', $lead->services) == 'Logo & Branding') ? 'selected' : '' }} >Logo & Branding</option>
-                                                <option value="Google SEO" {{ (old('services', $lead->services) == 'Google SEO') ? 'selected' : '' }} >Google SEO</option>
-                                                <option value="Copy Writing" {{ (old('services', $lead->services) == 'Copy Writing') ? 'selected' : '' }} >Copy Writing</option>
-                                                <option value="Social Media Advertenties" {{ (old('services', $lead->services) == 'Social Media Advertenties') ? 'selected' : '' }} >Social Media Advertenties</option>
-                                            </select>
+                                            <label class="form-label" for="deadline">Deadline</label>
+                                            <input type="date" class="form-control" id="deadline" name="deadline" value="{{ $lead->deadline }}" placeholder="Enter deadline" required>
+                                            @if ($errors->has('deadline'))
+                                                <div class="text-danger mt-2">
+                                                    {{ $errors->first('deadline') }}
+                                                </div>
+                                            @endif
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -81,11 +81,25 @@
                                         <div class="mb-3">
                                             <label class="form-label" for="price">Price</label>
                                             <select class="form-select" id="price" name="price" required>
-                                                <option value="">Select Price</option>
-                                                <option value="{{ $settings->budget_price_1 }}" {{ (old('budget', $lead->budget) == 'Minder dan €1000') ? 'selected' : '' }} >{{ $settings->budget_price_1 }}</option>
-                                                <option value="{{ $settings->budget_price_2 }}" {{ (old('budget', $lead->budget) == '€1000 - €2000') ? 'selected' : '' }} >{{ $settings->budget_price_2 }}</option>
-                                                <option value="{{ $settings->budget_price_3 }}" {{ (old('budget', $lead->budget) == 'Meer dan €2000') ? 'selected' : '' }} >{{ $settings->budget_price_3 }}</option>
-                                                <option value="{{ $settings->budget_price_4 }}" {{ (old('budget', $lead->budget) == 'Geen idee') ? 'selected' : '' }} >{{ $settings->budget_price_4 }}</option>
+                                                @if($lead->price == 0.00)
+                                                    <option value="{{ $settings->budget_price_1 }}" {{ (old('budget', $lead->budget) == 'Minder dan €1000') ? 'selected' : '' }} >{{ $settings->budget_price_1 }}</option>
+                                                    <option value="{{ $settings->budget_price_2 }}" {{ (old('budget', $lead->budget) == '€1000 - €2000') ? 'selected' : '' }} >{{ $settings->budget_price_2 }}</option>
+                                                    <option value="{{ $settings->budget_price_3 }}" {{ (old('budget', $lead->budget) == 'Meer dan €2000') ? 'selected' : '' }} >{{ $settings->budget_price_3 }}</option>
+                                                    <option value="{{ $settings->budget_price_4 }}" {{ (old('budget', $lead->budget) == 'Geen idee') ? 'selected' : '' }} >{{ $settings->budget_price_4 }}</option>
+                                                @else
+                                                    <option value="{{ $settings->budget_price_1 }}" {{ $lead->price == $settings->budget_price_1 ? 'selected' : '' }}>
+                                                        {{ $settings->budget_price_1 }}
+                                                    </option>
+                                                    <option value="{{ $settings->budget_price_2 }}" {{ $lead->price == $settings->budget_price_2 ? 'selected' : '' }}>
+                                                        {{ $settings->budget_price_2 }}
+                                                    </option>
+                                                    <option value="{{ $settings->budget_price_3 }}" {{ $lead->price == $settings->budget_price_3 ? 'selected' : '' }}>
+                                                        {{ $settings->budget_price_3 }}
+                                                    </option>
+                                                    <option value="{{ $settings->budget_price_4 }}" {{ $lead->price == $settings->budget_price_4 ? 'selected' : '' }}>
+                                                        {{ $settings->budget_price_4 }}
+                                                    </option>
+                                                @endif
                                             </select>
                                             @if ($errors->has('price'))
                                                 <div class="text-danger mt-2">
@@ -96,15 +110,37 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="deadline">Deadline</label>
-                                            <input type="date" class="form-control" id="deadline" name="deadline" value="{{ $lead->deadline }}" placeholder="Enter deadline" required>
-                                            @if ($errors->has('deadline'))
+                                            <label class="form-label" for="extra-services">{{ __('Extra Services') }}</label>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="service-logo" name="services[]" value="Logo & Branding" 
+                                                {{ is_array(old('services', json_decode($lead->services, true))) && in_array('Logo & Branding', old('services', json_decode($lead->services, true))) ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="service-logo">Logo & Branding</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="service-seo" name="services[]" value="Google SEO" 
+                                                {{ is_array(old('services', json_decode($lead->services, true))) && in_array('Google SEO', old('services', json_decode($lead->services, true))) ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="service-seo">Google SEO</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="service-writing" name="services[]" value="Copy Writing" 
+                                                {{ is_array(old('services', json_decode($lead->services, true))) && in_array('Copy Writing', old('services', json_decode($lead->services, true))) ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="service-writing">Copy Writing</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="service-ads" name="services[]" value="Social Media Advertenties" 
+                                                {{ is_array(old('services', json_decode($lead->services, true))) && in_array('Social Media Advertenties', old('services', json_decode($lead->services, true))) ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="service-ads">Social Media Advertenties</label>
+                                            </div>
+                                            @if ($errors->has('services'))
                                                 <div class="text-danger mt-2">
-                                                    {{ $errors->first('deadline') }}
+                                                    {{ $errors->first('services') }}
                                                 </div>
                                             @endif
                                         </div>
                                     </div>
+                                </div>
+                                <h4 class="mb-4 mt-4">{{ __('User Info') }}</h4>
+                                <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="name">Name</label>
@@ -162,15 +198,6 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="status">Status</label>
-                                            <select class="form-select" id="status" name="status">
-                                                <option value="0" {{ (old('status', $lead->status) == '0') ? 'selected' : '' }} >Pending</option>
-                                                <option value="1" {{ (old('status', $lead->status) == '1') ? 'selected' : '' }} >Published</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
                                             <label class="form-label" for="description">Description</label>
                                             <textarea class="form-control" id="description" rows="5" name="description" required>{{ $lead->description }}</textarea>
                                             @if ($errors->has('description'))
@@ -180,6 +207,31 @@
                                             @endif
                                         </div>
                                     </div>
+                                </div>
+                                <h4 class="mb-4">{{ __('Lead Status') }}</h4>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="status">{{ __('Status') }}</label>
+                                            <select class="form-select" id="status" name="status">
+                                                <option value="0" {{ (old('status', $lead->status) == '0') ? 'selected' : '' }} >Pending</option>
+                                                <option value="1" {{ (old('status', $lead->status) == '1') ? 'selected' : '' }} >Published</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="sold_count">{{ __('Sold Status') }}</label>
+                                            <select class="form-select" id="sold_count" name="sold_count">
+                                                <option value="0" {{ (old('sold_count', $lead->sold_count) == '0') ? 'selected' : '' }}>{{ __('New') }}</option>
+                                                @for ($i = 1; $i < $settings->max_sold; $i++)
+                                                    <option value="{{ $i }}" {{ (old('sold_count', $lead->sold_count) == $i) ? 'selected' : '' }}>{{ __('Sold') }} {{ $i }}</option>
+                                                @endfor
+                                                <option value="Full" {{ (old('sold_count', $lead->sold_count) == $settings->max_sold) ? 'selected' : '' }}>{{ __('Full') }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
                                 </div>
                                 <button type="submit" class="btn btn-primary mb-4">{{ __('Update Lead') }}</button>
                             </form>

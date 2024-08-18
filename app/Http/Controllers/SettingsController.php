@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Setting;
-use App\Models\Budget;
+use Illuminate\Support\Facades\Auth;
 
 class SettingsController extends Controller {
 

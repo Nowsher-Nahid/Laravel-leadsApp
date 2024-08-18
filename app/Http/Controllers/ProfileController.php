@@ -9,20 +9,17 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use App\Models\User;
+use App\Models\EmailSettings;
 use Illuminate\Support\Facades\Hash;
 
-class ProfileController extends Controller
-{
-    /**
-     * Display the user's profile form.
-     */
-    public function edit(Request $request): View
-    {
-        // return view('profile.edit', [
-        //     'user' => $request->user(),
-        // ]);
+class ProfileController extends Controller {
+
+    public function edit(Request $request): View{
+        $user = Auth::user();
+        $email_settings = $user->emailSettings;
         return view('profile', [
             'user' => $request->user(),
+            'email_settings' => $email_settings,
         ]);
     }
 
@@ -77,8 +74,7 @@ class ProfileController extends Controller
         return redirect()->back()->with('success', 'Profile updated successfully.');
     }
 
-    public function updatePassword(Request $request)
-    {
+    public function updatePassword(Request $request){
         // Validate the input
         $request->validate([
             'current_password' => ['required'],
@@ -100,12 +96,39 @@ class ProfileController extends Controller
         return redirect()->back()->with('success', 'Password updated successfully.');
     }
 
+    public function updateEmailSettings(Request $request, string $id){
+        $request->validate([
+            'job_type' => 'nullable|array',
+            'budget' => 'nullable|array',
+        ]);
+
+        $data = $request->only(['job_type', 'budget']);
+        $data['job_type'] = json_encode($data['job_type'], JSON_UNESCAPED_UNICODE);
+        $data['budget'] = json_encode($data['budget'], JSON_UNESCAPED_UNICODE);
+
+        $email_settings = EmailSettings::where('user_id', $id)->first();
+
+        if ($email_settings) {
+            // Update existing EmailSettings
+            $email_settings->update($data);
+        } else {
+            // Create a new EmailSettings record
+            $email_settings = new EmailSettings([
+                'user_id' => $id,
+                'job_type' => $data['job_type'],
+                'budget' => $data['budget'],
+            ]);
+            $email_settings->save();
+        }
+
+        return redirect()->back()->with('success', 'Settings updated successfully.');
+    }
+
 
     /**
      * Delete the user's account.
      */
-    public function destroy(Request $request): RedirectResponse
-    {
+    public function destroy(Request $request): RedirectResponse{
         $request->validateWithBag('userDeletion', [
             'password' => ['required', 'current_password'],
         ]);

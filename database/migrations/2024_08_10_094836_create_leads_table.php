@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('leads', function (Blueprint $table) {
             $table->id();
             $table->string('job_type');
-            $table->string('services')->nullable();
+            $table->text('services')->nullable();
             $table->string('budget');
             $table->decimal('price', 10, 2)->nullable();
             $table->text('description');
@@ -25,7 +25,9 @@ return new class extends Migration
             $table->string('company');
             $table->string('website_url')->nullable();
             $table->tinyInteger('status')->default('0');
-            $table->timestamps();
+            $table->string('sold_count')->nullable()->default('0');
+            $table->nullableTimestamps();
+            $table->timestamp('status_changed_at')->nullable();
         });
     }
 

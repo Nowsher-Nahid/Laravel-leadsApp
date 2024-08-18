@@ -1,4 +1,4 @@
-.edit, .delete, .view {
+.edit, .delete, .view, .pay {
     border-radius: 3px !important;
 }
 div.table-responsive>div.dt-container>div.row {
@@ -9,3 +9,22 @@ div.table-responsive>div.dt-container>div.row {
 .pc-header .user-avtar {
     border-radius: 5px !important;
 } */
+.StripeElement {
+    background-color: white;
+    padding: 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+.StripeElement--focus {
+    box-shadow: 0 1px 3px 0 #cfd7df;
+    border-color: #a3d2fc;
+}
+
+.StripeElement--invalid {
+    border-color: #fa755a;
+}
+
+.StripeElement--webkit-autofill {
+    background-color: #fefde5 !important;
+}

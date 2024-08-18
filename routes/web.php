@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LeadController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -34,6 +35,7 @@ Route::middleware(['admin'])->group(function () {
     // Manage users
     Route::get('/user-list', [UserController::class, 'index'])->name('user.index');
     Route::get('/edit-user/{id}', [UserController::class, 'edit'])->name('user.edit');
+    Route::post('/update-user/{id}', [UserController::class, 'update'])->name('user.update');
     Route::delete('/delete-user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
     // Settings
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
@@ -49,6 +51,13 @@ Route::middleware(['adminOrUser'])->group(function () {
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
     // password update
     Route::post('password', [ProfileController::class, 'updatePassword'])->name('password.update');
+    // Email settings update
+    Route::post('/settings/{id}/update', [ProfileController::class, 'updateEmailSettings'])->name('email_settings.update');
+    // Payment route
+    Route::post('/leads/{id}/buy', [LeadController::class, 'buyLead'])->name('leads.buy');
+    // Transaction routes
+    Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
+    Route::get('/transactions/data', [TransactionController::class, 'getData'])->name('transactions.data');
 });
 
 require __DIR__.'/auth.php';

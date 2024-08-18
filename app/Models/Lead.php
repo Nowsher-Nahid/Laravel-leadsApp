@@ -21,5 +21,18 @@ class Lead extends Model
         'company',
         'website_url',
         'status',
+        'sold_count',
     ];
+
+    protected $casts = [
+        'status_changed_at' => 'datetime',
+    ];
+
+    public function transactions(){
+        return $this->hasMany(Transaction::class);
+    }
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
 }

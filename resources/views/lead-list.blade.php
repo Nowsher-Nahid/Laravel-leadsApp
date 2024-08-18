@@ -9,13 +9,13 @@
             <div class="row align-items-center">
               <div class="col-md-12">
                 <ul class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                  <li class="breadcrumb-item" aria-current="page">Leads</li>
+                  <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
+                  <li class="breadcrumb-item" aria-current="page">{{ __('Leads') }}</li>
                 </ul>
               </div>
               <div class="col-md-12">
                 <div class="page-header-title">
-                  <h2 class="mb-0">Leads List</h2>
+                  <h2 class="mb-0">{{ __('Leads List') }}</h2>
                 </div>
               </div>
             </div>
@@ -30,13 +30,19 @@
                 <table id="base-style" class="table table-striped table-bordered nowrap">
                   <thead>
                     <tr>
-                      <th>SN</th>
-                      <th>Job Type</th>
-                      <th>Service</th>
-                      <th>Budget</th>
-                      <th>Deadline</th>
-                      <th>Status</th>
-                      <th>Action</th>
+                      <th>{{ __('SN') }}</th>
+                      @if (Auth::user()->type === 1)
+                        <th>{{ __('Information of the Assignment') }}</th>
+                        <th>{{ __('Published Date') }}</th>
+                      @else
+                        <th>{{ __('Job Type') }}</th>
+                        <th>{{ __('Service') }}</th>
+                        <th>{{ __('Budget') }}</th>
+                        <th>{{ __('Deadline') }}</th>
+                        <th>{{ __('Status') }}</th>
+                        <th>{{ __('Sold') }}</th>
+                      @endif
+                      <th>{{ __('Action') }}</th>
                     </tr>
                   </thead>
                   <tbody></tbody>
@@ -50,24 +56,102 @@
     </div>
   </section>
 
+  <!-- Modal -->
+<div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="paymentModalLabel">{{ __('Enter Card Details') }}</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <form id="payment-form" action="{{ route('leads.buy', 0) }}" method="POST">
+                  @csrf
+                  <div id="card-element" class="my-3">
+                      <!-- Stripe Card Element will be inserted here. -->
+                  </div>
+                  <div id="card-errors" role="alert" class="text-danger my-2"></div>
+                  <button id="submit-button" class="btn btn-success w-100">{{ __('Submit Payment') }}</button>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
+
+
 @endsection
 
 @push('scripts')
     <script>
         $(function () {
+          var columns = [
+              { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+            ];
+            @if(Auth::user()->type === 1)
+                columns.push({ data: 'lead_info', name: 'lead_info' });
+                columns.push({ data: 'published_date', name: 'published_date' });
+            @else
+              columns.push({data: 'job_type', name: 'job_type'});
+              columns.push({data: 'services', name: 'services'});
+              columns.push({data: 'budget', name: 'budget'});
+              columns.push({data: 'deadline', name: 'deadline'});
+              columns.push({data: 'status', name: 'status'});
+              columns.push({ data: 'sold', name: 'sold'});
+            @endif
+
+            columns.push({ data: 'action', name: 'action', orderable: false, searchable: false });
+
             var table = $('#base-style').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('lead.index') }}",
-                columns: [
-                    { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-                    {data: 'job_type', name: 'job_type'},
-                    {data: 'services', name: 'services'},
-                    {data: 'budget', name: 'budget'},
-                    {data: 'deadline', name: 'deadline'},
-                    {data: 'status', name: 'status'},
-                    {data: 'action', name: 'action', orderable: false, searchable: false},
-                ]
+                columns: columns
+            });
+            
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // When the payment modal is opened
+            $('#paymentModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget); // Button that triggered the modal
+                var leadId = button.data('id'); // Extract info from data-* attributes
+
+                // Update the form action to include the correct lead ID
+                var formAction = "{{ route('leads.buy', ':id') }}";
+                formAction = formAction.replace(':id', leadId);
+
+                $(this).find('#payment-form').attr('action', formAction);
+            });
+        });
+
+        // Initialize Stripe
+        var stripe = Stripe('{{ env('STRIPE_KEY') }}');
+        var elements = stripe.elements();
+
+        // Create an instance of the card Element
+        var card = elements.create('card');
+        card.mount('#card-element');
+
+        // Handle form submission
+        var form = document.getElementById('payment-form');
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            stripe.createToken(card).then(function(result) {
+                if (result.error) {
+                    // Inform the user if there was an error
+                    console.error(result.error.message);
+                } else {
+                    // Send the token to your server
+                    var hiddenInput = document.createElement('input');
+                    hiddenInput.setAttribute('type', 'hidden');
+                    hiddenInput.setAttribute('name', 'stripeToken');
+                    hiddenInput.setAttribute('value', result.token.id);
+                    form.appendChild(hiddenInput);
+
+                    // Submit the form
+                    form.submit();
+                }
             });
         });
 

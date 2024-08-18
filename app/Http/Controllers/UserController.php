@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
-use DataTables;
+use Yajra\DataTables\DataTables;
 
 class UserController extends Controller
 {
@@ -66,7 +66,8 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+        return view('edit-user', compact('user'));
     }
 
     /**
@@ -74,7 +75,29 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+            'phone' => 'nullable|string|max:20',
+            'company_name' => 'nullable|string|max:255',
+            'company_vat' => 'nullable|string|max:255',
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        $data = $request->all();
+        $user = User::findOrFail($id);
+
+        if ($request->hasFile('profile_picture')) {
+            $profilePicture = $request->file('profile_picture');
+            $profilePictureName = time() . '_' . $profilePicture->getClientOriginalName();
+            $profilePicture->move(public_path('assets/images/profile-pictures'), $profilePictureName);
+            $profilePicturePath = 'assets/images/profile-pictures/' . $profilePictureName;
+            $data['profile_picture'] = $profilePicturePath;
+        }
+
+        $user->update($data);
+        return redirect()->back()->with('success', 'Data updated successfully.');
     }
 
     /**

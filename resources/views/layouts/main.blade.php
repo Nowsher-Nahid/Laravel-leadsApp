@@ -69,15 +69,19 @@
                         <div class="pt-3">
                             <a href="{{ route('profile.edit') }}">
                                 <i class="ti ti-user"></i>
-                                <span>My Account</span>
+                                <span>{{ __('My Account') }}</span>
                             </a>
-                            <a href="">
-                                <i class="ti ti-settings"></i>
-                                <span>Settings</span>
-                            </a>
+
+                            @if (Auth::user()->type === 0)
+                                <a href="{{ route('settings') }}">
+                                    <i class="ti ti-settings"></i>
+                                    <span>{{ __('Settings') }}</span>
+                                </a>
+                            @endif
+
                             <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 <i class="ti ti-power"></i>
-                                <span>Logout</span>
+                                <span>{{ __('Logout') }}</span>
                             </a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
@@ -89,7 +93,7 @@
 
                 <ul class="pc-navbar">
                     <li class="pc-item pc-caption">
-                        <label>Navigation</label>
+                        <label>{{ __('Navigation') }}</label>
                     </li>
                     @if (Auth::user()->type === 0)
                     <li class="pc-item">
@@ -99,7 +103,7 @@
                                     <use xlink:href="#custom-status-up"></use>
                                 </svg>
                             </span>
-                            <span class="pc-mtext">Dashboard</span>
+                            <span class="pc-mtext">{{ __('Dashboard') }}</span>
                         </a>
                     </li>
                     @endif
@@ -110,7 +114,7 @@
                                     <use xlink:href="#custom-keyboard"></use>
                                 </svg>
                             </span>
-                            <span class="pc-mtext">Leads</span>
+                            <span class="pc-mtext">{{ __('Leads') }}</span>
                         </a>
                     </li>
                     @if (Auth::user()->type === 0)
@@ -121,7 +125,7 @@
                                     <use xlink:href="#custom-profile-2user-outline"></use>
                                 </svg>
                             </span>
-                            <span class="pc-mtext">Users</span>
+                            <span class="pc-mtext">{{ __('Partners') }}</span>
                         </a>
                     </li>
                     <li class="pc-item">
@@ -131,38 +135,20 @@
                                     <use xlink:href="#custom-setting-2"></use>
                                 </svg>
                             </span>
-                            <span class="pc-mtext">Settings</span>
+                            <span class="pc-mtext">{{ __('Settings') }}</span>
                         </a>
                     </li>
                     @endif
-                    {{-- <li class="pc-item pc-hasmenu">
-                        <a href="#!" class="pc-link">
+                    <li class="pc-item">
+                        <a href="{{ route('transactions.index') }}" class="pc-link">
                             <span class="pc-micon">
                                 <svg class="pc-icon">
-                                    <use xlink:href="#custom-user"></use>
+                                    <use xlink:href="#custom-text-align-justify-center"></use>
                                 </svg>
                             </span>
-                            <span class="pc-mtext">Users</span>
-                            <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
+                            <span class="pc-mtext">{{ __('Transactions') }}</span>
                         </a>
-                        <ul class="pc-submenu">
-                            <li class="pc-item"><a class="pc-link" href="../demo/layout-vertical.html">Vertical</a></li>
-                            <li class="pc-item"><a class="pc-link" href="../demo/layout-horizontal.html">Horizontal</a></li>
-                            <li class="pc-item"><a class="pc-link" href="../demo/layout-color-header.html">Layouts 2</a></li>
-                            <li class="pc-item"><a class="pc-link" href="../demo/layout-compact.html">Compact</a></li>
-                            <li class="pc-item"><a class="pc-link" href="../demo/layout-tab.html">Tab</a></li>
-                        </ul>
-                    </li> --}}
-                    {{-- <li class="pc-item">
-                        <a href="../widget/w_statistics.html" class="pc-link">
-                        <span class="pc-micon">
-                            <svg class="pc-icon">
-                            <use xlink:href="#custom-story"></use>
-                            </svg>
-                        </span>
-                        <span class="pc-mtext">Statistics</span>
-                        </a>
-                    </li> --}}
+                    </li>
                 </ul>
                 </div>
             </div>
@@ -190,16 +176,27 @@
                         <div class="dropdown-menu dropdown-menu-end pc-h-dropdown">
                             <a href="{{ route('profile.edit') }}" class="dropdown-item">
                                 <i class="ti ti-user"></i>
-                                <span>My Account</span>
+                                <span>{{ __('My Account') }}</span>
                             </a>
-                            <a href="" class="dropdown-item">
-                            <i class="ti ti-settings"></i>
-                            <span>Settings</span>
+                            @if (Auth::user()->type === 0)
+                                <a href="{{ route('settings') }}" class="dropdown-item">
+                                    <i class="ti ti-settings"></i>
+                                    <span>{{ __('Settings') }}</span>
+                                </a>
+                            @endif
+
+                            <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <i class="ti ti-power"></i>
+                                <span>Logout</span>
                             </a>
-                            <a href="" class="dropdown-item">
-                            <i class="ti ti-power"></i>
-                            <span>Logout</span>
-                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+
+                            {{-- <a href="" class="dropdown-item">
+                                <i class="ti ti-power"></i>
+                                <span>{{ __('Logout') }}</span>
+                            </a> --}}
                         </div>
                         </li>
                         <li class="dropdown pc-h-item header-user-profile">
@@ -233,17 +230,21 @@
                                 <a href="{{ route('profile.edit') }}" class="dropdown-item">
                                     <span>
                                         <i class="ti ti-user"></i>
-                                        <span>My Account</span>
+                                        <span>{{ __('My Account') }}</span>
                                     </span>
                                 </a>
-                                <a href="#" class="dropdown-item">
-                                    <span>
-                                        <svg class="pc-icon text-muted me-2">
-                                        <use xlink:href="#custom-setting-outline"></use>
-                                        </svg>
-                                        <span>Settings</span>
-                                    </span>
-                                </a>
+
+                                @if (Auth::user()->type === 0)
+                                    <a href="{{ route('settings') }}" class="dropdown-item">
+                                        <span>
+                                            <svg class="pc-icon text-muted me-2">
+                                            <use xlink:href="#custom-setting-outline"></use>
+                                            </svg>
+                                            <span>{{ __('Settings') }}</span>
+                                        </span>
+                                    </a>
+                                @endif
+
                                 <hr class="border-secondary border-opacity-50" />
                                 <div class="d-grid mb-3">
                                     <form method="POST" action="{{ route('logout') }}">
@@ -299,7 +300,9 @@
     <script src="{{ asset('assets/js/plugins/dataTables.bootstrap5.min.js') }}"></script>
     <!-- Sweet Alert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    {{-- Stripe js --}}
+    <script src="https://js.stripe.com/v3/"></script>
+    
     <script>
         @if (session('success'))
           Swal.fire({

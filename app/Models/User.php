@@ -50,6 +50,18 @@ class User extends Authenticatable
         ];
     }
 
+    public function transactions(){
+        return $this->hasMany(Transaction::class);
+    }
+
+    public function leads(){
+        return $this->hasMany(Lead::class);
+    }
+
+    public function emailSettings(){
+        return $this->hasOne(EmailSettings::class, 'user_id');
+    }
+
     public function isAdmin(){
         return $this->type === 0;
     }
