@@ -53,9 +53,9 @@
                         <h6 class="mb-0">{{ Auth::user()->first_name }}</h6>
                         <small>
                             @if (Auth::user()->type == 1)
-                                {{ __('User') }}
+                                {{ __('messages.user') }}
                             @else
-                                {{ __('Administrator') }}
+                                {{ __('messages.administrator') }}
                             @endif
                         </small>
                         </div>
@@ -69,19 +69,19 @@
                         <div class="pt-3">
                             <a href="{{ route('profile.edit') }}">
                                 <i class="ti ti-user"></i>
-                                <span>{{ __('My Account') }}</span>
+                                <span>{{ __('messages.my_account') }}</span>
                             </a>
 
                             @if (Auth::user()->type === 0)
                                 <a href="{{ route('settings') }}">
                                     <i class="ti ti-settings"></i>
-                                    <span>{{ __('Settings') }}</span>
+                                    <span>{{ __('messages.settings') }}</span>
                                 </a>
                             @endif
 
                             <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 <i class="ti ti-power"></i>
-                                <span>{{ __('Logout') }}</span>
+                                <span>{{ __('messages.logout') }}</span>
                             </a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
@@ -93,7 +93,7 @@
 
                 <ul class="pc-navbar">
                     <li class="pc-item pc-caption">
-                        <label>{{ __('Navigation') }}</label>
+                        <label>{{ __('messages.navigation') }}</label>
                     </li>
                     @if (Auth::user()->type === 0)
                     <li class="pc-item">
@@ -103,7 +103,7 @@
                                     <use xlink:href="#custom-status-up"></use>
                                 </svg>
                             </span>
-                            <span class="pc-mtext">{{ __('Dashboard') }}</span>
+                            <span class="pc-mtext">{{ __('messages.dashboard') }}</span>
                         </a>
                     </li>
                     @endif
@@ -114,7 +114,7 @@
                                     <use xlink:href="#custom-keyboard"></use>
                                 </svg>
                             </span>
-                            <span class="pc-mtext">{{ __('Leads') }}</span>
+                            <span class="pc-mtext">{{ __('messages.leads') }}</span>
                         </a>
                     </li>
                     @if (Auth::user()->type === 0)
@@ -125,7 +125,7 @@
                                     <use xlink:href="#custom-profile-2user-outline"></use>
                                 </svg>
                             </span>
-                            <span class="pc-mtext">{{ __('Partners') }}</span>
+                            <span class="pc-mtext">{{ __('messages.partners') }}</span>
                         </a>
                     </li>
                     <li class="pc-item">
@@ -135,7 +135,7 @@
                                     <use xlink:href="#custom-setting-2"></use>
                                 </svg>
                             </span>
-                            <span class="pc-mtext">{{ __('Settings') }}</span>
+                            <span class="pc-mtext">{{ __('messages.settings') }}</span>
                         </a>
                     </li>
                     @endif
@@ -146,7 +146,7 @@
                                     <use xlink:href="#custom-text-align-justify-center"></use>
                                 </svg>
                             </span>
-                            <span class="pc-mtext">{{ __('Transactions') }}</span>
+                            <span class="pc-mtext">{{ __('messages.transactions') }}</span>
                         </a>
                     </li>
                 </ul>
@@ -172,32 +172,41 @@
                 </div>
                 <div class="ms-auto">
                     <ul class="list-unstyled">
+                        <li class="dropdown pc-h-item me-3">
+                            <a href="{{ url('locale/nl') }}" class="me-1 {{ app()->getLocale() === 'nl' ? 'text-bold' : '' }}">
+                                {{ __('messages.dutch') }}
+                            </a>
+                            |
+                            <a href="{{ url('locale/en') }}" class="ms-1 {{ app()->getLocale() === 'en' ? 'text-bold' : '' }}">
+                                {{ __('messages.english') }}
+                            </a>
+                        </li>
                         <li class="dropdown pc-h-item">
-                        <div class="dropdown-menu dropdown-menu-end pc-h-dropdown">
-                            <a href="{{ route('profile.edit') }}" class="dropdown-item">
-                                <i class="ti ti-user"></i>
-                                <span>{{ __('My Account') }}</span>
-                            </a>
-                            @if (Auth::user()->type === 0)
-                                <a href="{{ route('settings') }}" class="dropdown-item">
-                                    <i class="ti ti-settings"></i>
-                                    <span>{{ __('Settings') }}</span>
+                            <div class="dropdown-menu dropdown-menu-end pc-h-dropdown">
+                                <a href="{{ route('profile.edit') }}" class="dropdown-item">
+                                    <i class="ti ti-user"></i>
+                                    <span>{{ __('messages.my_account') }}</span>
                                 </a>
-                            @endif
+                                @if (Auth::user()->type === 0)
+                                    <a href="{{ route('settings') }}" class="dropdown-item">
+                                        <i class="ti ti-settings"></i>
+                                        <span>{{ __('messages.settings') }}</span>
+                                    </a>
+                                @endif
 
-                            <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                <i class="ti ti-power"></i>
-                                <span>Logout</span>
-                            </a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                @csrf
-                            </form>
+                                <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    <i class="ti ti-power"></i>
+                                    <span>{{ __('messages.logout') }}</span>
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
 
-                            {{-- <a href="" class="dropdown-item">
-                                <i class="ti ti-power"></i>
-                                <span>{{ __('Logout') }}</span>
-                            </a> --}}
-                        </div>
+                                {{-- <a href="" class="dropdown-item">
+                                    <i class="ti ti-power"></i>
+                                    <span>{{ __('Logout') }}</span>
+                                </a> --}}
+                            </div>
                         </li>
                         <li class="dropdown pc-h-item header-user-profile">
                         <a
@@ -213,7 +222,7 @@
                         </a>
                         <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
                             <div class="dropdown-header d-flex align-items-center justify-content-between">
-                            <h5 class="m-0">Profile</h5>
+                            <h5 class="m-0">{{ __('messages.profile') }}</h5>
                             </div>
                             <div class="dropdown-body">
                             <div class="profile-notification-scroll position-relative" style="max-height: calc(100vh - 225px)">
@@ -230,7 +239,7 @@
                                 <a href="{{ route('profile.edit') }}" class="dropdown-item">
                                     <span>
                                         <i class="ti ti-user"></i>
-                                        <span>{{ __('My Account') }}</span>
+                                        <span>{{ __('messages.my_account') }}</span>
                                     </span>
                                 </a>
 
@@ -240,7 +249,7 @@
                                             <svg class="pc-icon text-muted me-2">
                                             <use xlink:href="#custom-setting-outline"></use>
                                             </svg>
-                                            <span>{{ __('Settings') }}</span>
+                                            <span>{{ __('messages.settings') }}</span>
                                         </span>
                                     </a>
                                 @endif
@@ -252,7 +261,7 @@
                                         <button type="submit" class="btn btn-primary w-100" onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                             <svg class="pc-icon me-2">
-                                            <use xlink:href="#custom-logout-1-outline"></use></svg>{{ __('Logout') }}
+                                            <use xlink:href="#custom-logout-1-outline"></use></svg>{{ __('messages.logout') }}
                                         </button>
                                     </form>
                                 </div>
@@ -306,21 +315,22 @@
     <script>
         @if (session('success'))
           Swal.fire({
-            title: 'Success!',
+            title: '{{ __('messages.success') }}',
             text: "{{ session('success') }}",
             icon: 'success',
             confirmButtonText: 'Ok'
           })
         @endif
+        
+        // Set userLang dynamically based on Laravel's locale
+        const userLang = '{{ app()->getLocale() }}';
 
-        // @if (session('success'))
-        //     Swal.fire({
-        //         title: 'Error!',
-        //         text: "{{ session('error') }}",
-        //         icon: 'error',
-        //         confirmButtonText: 'Ok'
-        //     })
-        // @endif
+        // Define DataTable language options with translation keys
+        const languageOptions = {
+            en: @json(__('messages.datatables', [], 'en')),
+            nl: @json(__('messages.datatables', [], 'nl'))
+        };
+
     </script>
 
     @stack('scripts')

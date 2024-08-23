@@ -54,8 +54,8 @@
                         @endif
                     </header>
 
-                    <a href="locale/en">English</a>
                     <a href="locale/nl">Dutch</a>
+                    <a href="locale/en">English</a>
 
                     <h1>{{ __('messages.welcome') }}</h1>
 

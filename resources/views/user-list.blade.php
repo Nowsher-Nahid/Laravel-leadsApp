@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', 'User List')
+@section('title', __('messages.user_list'))
 @section('content')
 
   <section class="pc-container">
@@ -30,13 +30,13 @@
                 <table id="base-style" class="table table-striped table-bordered nowrap user-table">
                     <thead>
                         <tr>
-                            <th>SN</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Company Name</th>
-                            <th>Company VAT</th>
-                            <th>Action</th>
+                            <th>{{ __('messages.sn') }}</th>
+                            <th>{{ __('messages.name') }}</th>
+                            <th>{{ __('messages.email') }}</th>
+                            <th>{{ __('messages.phone') }}</th>
+                            <th>{{ __('messages.company_name') }}</th>
+                            <th>{{ __('messages.company_vat') }}</th>
+                            <th>{{ __('messages.actions') }}</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -54,37 +54,38 @@
 
 @push('scripts')
     <script>
-        // $('#base-style').DataTable();
-
         $(function () {
-            var table = $('#base-style').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: "{{ route('user.index') }}",
-                columns: [
-                    { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-                    {data: 'full_name', name: 'full_name'},
-                    {data: 'email', name: 'email'},
-                    {data: 'phone', name: 'phone'},
-                    {data: 'company_name', name: 'company_name'},
-                    {data: 'company_vat', name: 'company_vat'},
-                    {data: 'action', name: 'action', orderable: false, searchable: false},
-                ]
-            });
-        });
+          var columns = [
+              { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+              { data: 'full_name', name: 'full_name' },
+              { data: 'email', name: 'email' },
+              { data: 'phone', name: 'phone' },
+              { data: 'company_name', name: 'company_name' },
+              { data: 'company_vat', name: 'company_vat' },
+              { data: 'action', name: 'action', orderable: false, searchable: false }
+          ];
+
+          var table = $('#base-style').DataTable({
+              processing: true,
+              serverSide: true,
+              ajax: "{{ route('user.index') }}",
+              columns: columns,
+              language: languageOptions[userLang] || languageOptions.en
+          });
+      });
 
         // delete
         $(document).ready(function() {
             $('body').on('click', '.delete', function() {
                 var id = $(this).data('id');
                 Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
+                    title: '{{ __('messages.are_you_sure') }}',
+                    text: "{{ __('messages.no_revert') }}",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
+                    confirmButtonText: '{{ __('messages.yes_delete') }}'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
@@ -96,8 +97,8 @@
                             success: function(response) {
                                 if (response.success) {
                                     Swal.fire(
-                                        'Deleted!',
-                                        'User has been deleted.',
+                                        '{{ __('messages.deleted') }}',
+                                        '{{ __('messages.user_deleted') }}',
                                         'success'
                                     ).then(() => {
                                         window.location.reload();

@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Lead Published</title>
+    <title>{{ __('messages.lead_published.title') }}</title>
 </head>
 <body>
-    <p>Hello,</p>
-    <p>A lead has just been published that matches your settings:</p>
-    <p><strong>Job Type:</strong> {{ $lead->job_type }}</p>
-    <p><strong>Budget:</strong> {{ $lead->budget }}</p>
-    <p><strong>Price:</strong> €{{ $lead->price }}</p>
-    <p>Check out the new lead details in your account.</p>
-    <p>Best regards,<br>Your Team</p>
+    <p>{{ __('messages.lead_published.greeting') }}</p>
+    <p>{{ __('messages.lead_published.intro') }}</p>
+    <p><strong>{{ __('messages.lead_published.job_type') }}</strong> {{ $lead->job_type }}</p>
+    <p><strong>{{ __('messages.lead_published.budget') }}</strong> {{ $lead->budget }}</p>
+    <p><strong>{{ __('messages.lead_published.price') }}</strong> €{{ $lead->price }}</p>
+    <p>{{ __('messages.lead_published.outro') }}</p>
+    <p>{{ __('messages.lead_published.regards') }}<br>{{ __('messages.lead_published.team') }}</p>
 </body>
 </html>

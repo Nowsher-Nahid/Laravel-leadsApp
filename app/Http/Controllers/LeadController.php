@@ -37,13 +37,11 @@ class LeadController extends Controller {
                         }
                         // sold count
                         if($row->sold_count === '0'){
-                            $sold = '<span class="text-success">New</span>';
+                            $sold = '<span class="text-success">' . __('messages.new') . '</span>';
                         }else if($row->sold_count === 'Full'){
-                            $sold = '<span class="text-danger">Full</span>';
-                        }else if($row->sold_count === '1'){
-                            $sold = $row->sold_count.' person';
+                            $sold = '<span class="text-danger">' . __('messages.full') . '</span>';
                         }else{
-                            $sold = $row->sold_count.' persons';
+                            $sold = $row->sold_count . ' ' . __('messages.sold');
                         }
                         
                         $lead_info = '
@@ -62,10 +60,10 @@ class LeadController extends Controller {
                     })
                     ->addColumn('status', function($row){
                         $lead = Lead::findOrFail($row->id);
-                        if($lead->status === 0){
-                            return "<span class='badge bg-light-danger rounded-pill f-12'>Pending</span>";
-                        }else{
-                            return "<span class='badge bg-light-success rounded-pill f-12'>Published</span>";
+                        if ($lead->status === 0) {
+                            return "<span class='badge bg-light-danger rounded-pill f-12'>" . __('messages.pending') . "</span>";
+                        } else {
+                            return "<span class='badge bg-light-success rounded-pill f-12'>" . __('messages.published') . "</span>";
                         }
                     })
                     ->addColumn('sold', function($row){
@@ -189,7 +187,7 @@ class LeadController extends Controller {
         }
 
         $lead->save();
-        return redirect()->back()->with('success', 'Lead updated successfully.');
+        return redirect()->back()->with('success', __('messages.data_updated'));
     }
 
 
@@ -237,7 +235,7 @@ class LeadController extends Controller {
                 $lead->save();
             }
 
-            return redirect()->back()->with('success', 'Lead purchased successfully.');
+            return redirect()->back()->with('success', __('messages.lead_purchased'));
 
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Payment failed: ' . $e->getMessage());

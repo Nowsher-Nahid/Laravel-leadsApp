@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', 'Leads List')
+@section('title', __('messages.leads_list'))
 @section('content')
 
   <section class="pc-container">
@@ -9,13 +9,13 @@
             <div class="row align-items-center">
               <div class="col-md-12">
                 <ul class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
-                  <li class="breadcrumb-item" aria-current="page">{{ __('Leads') }}</li>
+                  <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('messages.dashboard') }}</a></li>
+                  <li class="breadcrumb-item" aria-current="page">{{ __('messages.leads') }}</li>
                 </ul>
               </div>
               <div class="col-md-12">
                 <div class="page-header-title">
-                  <h2 class="mb-0">{{ __('Leads List') }}</h2>
+                  <h2 class="mb-0">{{ __('messages.leads_list') }}</h2>
                 </div>
               </div>
             </div>
@@ -30,19 +30,19 @@
                 <table id="base-style" class="table table-striped table-bordered nowrap">
                   <thead>
                     <tr>
-                      <th>{{ __('SN') }}</th>
+                      <th>{{ __('messages.sn') }}</th>
                       @if (Auth::user()->type === 1)
-                        <th>{{ __('Information of the Assignment') }}</th>
-                        <th>{{ __('Published Date') }}</th>
+                        <th>{{ __('messages.information_of_the_assignment') }}</th>
+                        <th>{{ __('messages.published_date') }}</th>
                       @else
-                        <th>{{ __('Job Type') }}</th>
-                        <th>{{ __('Service') }}</th>
-                        <th>{{ __('Budget') }}</th>
-                        <th>{{ __('Deadline') }}</th>
-                        <th>{{ __('Status') }}</th>
-                        <th>{{ __('Sold') }}</th>
+                        <th>{{ __('messages.job_type') }}</th>
+                        <th>{{ __('messages.service') }}</th>
+                        <th>{{ __('messages.budget') }}</th>
+                        <th>{{ __('messages.deadline') }}</th>
+                        <th>{{ __('messages.status') }}</th>
+                        <th>{{ __('messages.sold') }}</th>
                       @endif
-                      <th>{{ __('Action') }}</th>
+                      <th>{{ __('messages.actions') }}</th>
                     </tr>
                   </thead>
                   <tbody></tbody>
@@ -61,7 +61,7 @@
   <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
           <div class="modal-header">
-              <h5 class="modal-title" id="paymentModalLabel">{{ __('Enter Card Details') }}</h5>
+              <h5 class="modal-title" id="paymentModalLabel">{{ __('messages.enter_card_details') }}</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -71,13 +71,12 @@
                       <!-- Stripe Card Element will be inserted here. -->
                   </div>
                   <div id="card-errors" role="alert" class="text-danger my-2"></div>
-                  <button id="submit-button" class="btn btn-success w-100">{{ __('Submit Payment') }}</button>
+                  <button id="submit-button" class="btn btn-success w-100">{{ __('messages.submit_payment') }}</button>
               </form>
           </div>
       </div>
   </div>
 </div>
-
 
 @endsection
 
@@ -105,7 +104,8 @@
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('lead.index') }}",
-                columns: columns
+                columns: columns,
+                language: languageOptions[userLang] || languageOptions.en
             });
             
         });
@@ -125,7 +125,7 @@
         });
 
         // Initialize Stripe
-        var stripe = Stripe('{{ env('STRIPE_KEY') }}');
+        var stripe = Stripe('{{ config('services.stripe.key') }}');
         var elements = stripe.elements();
 
         // Create an instance of the card Element
@@ -160,13 +160,13 @@
             $('body').on('click', '.delete', function() {
                 var id = $(this).data('id');
                 Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
+                    title: '{{ __('messages.are_you_sure') }}',
+                    text: "{{ __('messages.no_revert') }}",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
+                    confirmButtonText: '{{ __('messages.yes_delete') }}'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
@@ -178,8 +178,8 @@
                             success: function(response) {
                                 if (response.success) {
                                     Swal.fire(
-                                        'Deleted!',
-                                        'Lead has been deleted.',
+                                        '{{ __('messages.deleted') }}',
+                                        '{{ __('messages.lead_deleted') }}',
                                         'success'
                                     ).then(() => {
                                         window.location.reload();

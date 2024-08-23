@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', 'Transaction List')
+@section('title', __('messages.transaction_list'))
 @section('content')
 
   <section class="pc-container">
@@ -9,13 +9,13 @@
             <div class="row align-items-center">
               <div class="col-md-12">
                 <ul class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                  <li class="breadcrumb-item" aria-current="page">Leads</li>
+                  <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('messages.dashboard') }}</a></li>
+                  <li class="breadcrumb-item" aria-current="page">{{ __('messages.leads') }}</li>
                 </ul>
               </div>
               <div class="col-md-12">
                 <div class="page-header-title">
-                  <h2 class="mb-0">Transaction List</h2>
+                  <h2 class="mb-0">{{ __('messages.transaction_list') }}</h2>
                 </div>
               </div>
             </div>
@@ -30,15 +30,15 @@
                 <table id="base-style" class="table table-striped table-bordered nowrap">
                   <thead>
                     <tr>
-                        <th>Job Type</th>
-                        <th>Services</th>
-                        <th>Budget</th>
-                        <th>Name</th>
-                        <th>Purchase Date</th>
+                        <th>{{ __('messages.job_type') }}</th>
+                        <th>{{ __('messages.services') }}</th>
+                        <th>{{ __('messages.budget') }}</th>
+                        <th>{{ __('messages.name') }}</th>
+                        <th>{{ __('messages.purchase_date') }}</th>
                         @if(Auth::user()->type === 0)
-                          <th>Purchased By</th>
+                          <th>{{ __('messages.purchased_by') }}</th>
                         @endif
-                        <th>Actions</th>
+                        <th>{{ __('messages.actions') }}</th>
                     </tr>
                   </thead>
                   <tbody></tbody>
@@ -75,7 +75,8 @@
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('transactions.data') }}",
-                columns: columns
+                columns: columns,
+                language: languageOptions[userLang] || languageOptions.en
             });
         });
     </script>

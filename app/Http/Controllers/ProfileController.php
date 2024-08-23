@@ -71,7 +71,7 @@ class ProfileController extends Controller {
         }
 
         $request->user()->save();
-        return redirect()->back()->with('success', 'Profile updated successfully.');
+        return redirect()->back()->with('success', __('messages.data_updated'));
     }
 
     public function updatePassword(Request $request){
@@ -93,7 +93,7 @@ class ProfileController extends Controller {
         $user->save();
 
         // Redirect with success message
-        return redirect()->back()->with('success', 'Password updated successfully.');
+        return redirect()->back()->with('success', __('messages.data_updated'));
     }
 
     public function updateEmailSettings(Request $request, string $id){
@@ -121,7 +121,7 @@ class ProfileController extends Controller {
             $email_settings->save();
         }
 
-        return redirect()->back()->with('success', 'Settings updated successfully.');
+        return redirect()->back()->with('success', __('messages.data_updated'));
     }
 
 

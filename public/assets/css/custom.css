@@ -28,3 +28,13 @@ div.table-responsive>div.dt-container>div.row {
 .StripeElement--webkit-autofill {
     background-color: #fefde5 !important;
 }
+.text-bold {
+    font-weight: bold;
+    color: #4680ff;
+}
+.auth-main .language {
+    position: absolute;
+    right: 30px;
+    top: 30px;
+    z-index: 9999;
+}

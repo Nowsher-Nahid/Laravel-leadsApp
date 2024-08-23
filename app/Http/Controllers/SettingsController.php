@@ -20,7 +20,7 @@ class SettingsController extends Controller {
         $settings->max_sold = $request->input('max_sold');
         $settings->save();
 
-        return redirect()->back()->with('success', 'Data updated successfully.');
+        return redirect()->back()->with('success', __('messages.data_updated'));
     }
 
     public function budget_update(Request $request){
@@ -34,7 +34,7 @@ class SettingsController extends Controller {
         $data = $request->all();
         $settings->update($data);
 
-        return redirect()->back()->with('success', 'Prices updated successfully.');
+        return redirect()->back()->with('success', __('messages.data_updated'));
     }
 
 }

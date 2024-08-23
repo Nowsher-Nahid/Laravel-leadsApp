@@ -52,113 +52,125 @@
 </x-guest-layout> --}}
 
 @extends('layouts.main')
-@section('title', 'Register')
+@section('title', __('messages.register'))
 @section('content')
 
 <div class="auth-main">
-    <div class="auth-wrapper v1">
-      <div class="auth-form">
-        <div class="card my-5">
-          <div class="card-body">
 
-            <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
+    <div class="language">
+        <a href="{{ url('locale/nl') }}" class="me-1 {{ app()->getLocale() === 'nl' ? 'text-bold' : '' }}">
+            {{ __('messages.dutch') }}
+        </a>
+        |
+        <a href="{{ url('locale/en') }}" class="ms-1 {{ app()->getLocale() === 'en' ? 'text-bold' : '' }}">
+            {{ __('messages.english') }}
+        </a>
+    </div>
+
+    <div class="auth-wrapper v1">
+        <div class="auth-form">
+          <div class="card my-5">
+            <div class="card-body">
+      
+              <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="text-center">
-                    <a href="#"><img src="{{ asset('assets/images/logo-dark.svg') }}" alt="img"></a>
+                  <a href="#"><img src="{{ asset('assets/images/logo-dark.svg') }}" alt="img"></a>
                 </div>
-                <h4 class="text-center f-w-500 my-3">{{ __('Register form') }}</h4>
+                <h4 class="text-center f-w-500 my-3">{{ __('messages.register_form') }}</h4>
                 
                 <div class="mb-3">
-                    <input type="text" class="form-control" name="first_name" placeholder="{{ __('First Name') }}" value="{{ old('first_name') }}" required>
-                    @if ($errors->has('first_name'))
-                        <div class="text-danger mt-2">
-                            {{ $errors->first('first_name') }}
-                        </div>
-                    @endif
-                </div>
-                
-                <div class="mb-3">
-                    <input type="text" class="form-control" name="last_name" placeholder="{{ __('Last Name') }}" value="{{ old('last_name') }}" required>
-                    @if ($errors->has('last_name'))
-                        <div class="text-danger mt-2">
-                            {{ $errors->first('last_name') }}
-                        </div>
-                    @endif
+                  <input type="text" class="form-control" name="first_name" placeholder="{{ __('messages.first_name') }}" value="{{ old('first_name') }}" required>
+                  @if ($errors->has('first_name'))
+                    <div class="text-danger mt-2">
+                      {{ $errors->first('first_name') }}
+                    </div>
+                  @endif
                 </div>
                 
                 <div class="mb-3">
-                    <input type="email" class="form-control" name="email" placeholder="{{ __('Email Address') }}" value="{{ old('email') }}" required>
-                    @if ($errors->has('email'))
-                        <div class="text-danger mt-2">
-                            {{ $errors->first('email') }}
-                        </div>
-                    @endif
+                  <input type="text" class="form-control" name="last_name" placeholder="{{ __('messages.last_name') }}" value="{{ old('last_name') }}" required>
+                  @if ($errors->has('last_name'))
+                    <div class="text-danger mt-2">
+                      {{ $errors->first('last_name') }}
+                    </div>
+                  @endif
                 </div>
                 
                 <div class="mb-3">
-                    <input type="text" class="form-control" name="phone" placeholder="{{ __('Phone Number') }}" value="{{ old('phone') }}" required>
-                    @if ($errors->has('phone'))
-                        <div class="text-danger mt-2">
-                            {{ $errors->first('phone') }}
-                        </div>
-                    @endif
+                  <input type="email" class="form-control" name="email" placeholder="{{ __('messages.email_address') }}" value="{{ old('email') }}" required>
+                  @if ($errors->has('email'))
+                    <div class="text-danger mt-2">
+                      {{ $errors->first('email') }}
+                    </div>
+                  @endif
                 </div>
                 
                 <div class="mb-3">
-                    <input type="password" class="form-control" id="password" name="password" placeholder="{{ __('Password') }}" required>
+                  <input type="text" class="form-control" name="phone" placeholder="{{ __('messages.phone_number') }}" value="{{ old('phone') }}" required>
+                  @if ($errors->has('phone'))
+                    <div class="text-danger mt-2">
+                      {{ $errors->first('phone') }}
+                    </div>
+                  @endif
                 </div>
                 
                 <div class="mb-3">
-                    <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="{{ __('Confirm Password') }}" required>
-                    @if ($errors->has('password'))
-                        <div class="text-danger mt-2">
-                            {{ $errors->first('password') }}
-                        </div>
-                    @endif
+                  <input type="password" class="form-control" id="password" name="password" placeholder="{{ __('messages.password') }}" required>
                 </div>
                 
                 <div class="mb-3">
-                    <input type="text" class="form-control" name="company_name" placeholder="{{ __('Company Name') }}" value="{{ old('company_name') }}">
-                    @if ($errors->has('company_name'))
-                        <div class="text-danger mt-2">
-                            {{ $errors->first('company_name') }}
-                        </div>
-                    @endif
+                  <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="{{ __('messages.confirm_password') }}" required>
+                  @if ($errors->has('password'))
+                    <div class="text-danger mt-2">
+                      {{ $errors->first('password') }}
+                    </div>
+                  @endif
                 </div>
                 
                 <div class="mb-3">
-                    <input type="text" class="form-control" name="company_vat" placeholder="{{ __('Company VAT') }}" value="{{ old('company_vat') }}">
-                    @if ($errors->has('company_vat'))
-                        <div class="text-danger mt-2">
-                            {{ $errors->first('company_vat') }}
-                        </div>
-                    @endif
+                  <input type="text" class="form-control" name="company_name" placeholder="{{ __('messages.company_name') }}" value="{{ old('company_name') }}">
+                  @if ($errors->has('company_name'))
+                    <div class="text-danger mt-2">
+                      {{ $errors->first('company_name') }}
+                    </div>
+                  @endif
                 </div>
                 
                 <div class="mb-3">
-                    <label for="">{{ __('Profile Picture') }}</label>
-                    <input type="file" class="form-control mt-1" name="profile_picture" accept="image/*">
-                    @if ($errors->has('profile_picture'))
-                        <div class="text-danger mt-2">
-                            {{ $errors->first('profile_picture') }}
-                        </div>
-                    @endif
+                  <input type="text" class="form-control" name="company_vat" placeholder="{{ __('messages.company_vat') }}" value="{{ old('company_vat') }}">
+                  @if ($errors->has('company_vat'))
+                    <div class="text-danger mt-2">
+                      {{ $errors->first('company_vat') }}
+                    </div>
+                  @endif
+                </div>
+                
+                <div class="mb-3">
+                  <label for="">{{ __('messages.profile_picture') }}</label>
+                  <input type="file" class="form-control mt-1" name="profile_picture" accept="image/*">
+                  @if ($errors->has('profile_picture'))
+                    <div class="text-danger mt-2">
+                      {{ $errors->first('profile_picture') }}
+                    </div>
+                  @endif
                 </div>
                 
                 <div class="d-grid mt-4">
-                    <button type="submit" class="btn btn-primary">Sign up</button>
+                  <button type="submit" class="btn btn-primary">{{ __('messages.sign_up') }}</button>
                 </div>
                 
                 <div class="d-flex justify-content-between align-items-end mt-4">
-                    <h6 class="f-w-500 mb-0">Already have an Account?</h6>
-                    <a href="{{ route('login') }}" class="link-primary">Login here</a>
+                  <h6 class="f-w-500 mb-0">{{ __('messages.already_have_account') }}</h6>
+                  <a href="{{ route('login') }}" class="link-primary">{{ __('messages.login_here') }}</a>
                 </div>
-            </form>            
-            
+              </form>            
+      
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      
 </div>
 
 @endsection

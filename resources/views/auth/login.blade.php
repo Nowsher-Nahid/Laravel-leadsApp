@@ -48,10 +48,21 @@
 
 
 @extends('layouts.main')
-@section('title', 'Login')
+@section('title', __('messages.login'))
 @section('content')
 
 <div class="auth-main">
+
+    <div class="language">
+        <a href="{{ url('locale/nl') }}" class="me-1 {{ app()->getLocale() === 'nl' ? 'text-bold' : '' }}">
+            {{ __('messages.dutch') }}
+        </a>
+        |
+        <a href="{{ url('locale/en') }}" class="ms-1 {{ app()->getLocale() === 'en' ? 'text-bold' : '' }}">
+            {{ __('messages.english') }}
+        </a>
+    </div>
+
     <div class="auth-wrapper v1">
       <div class="auth-form">
         <div class="card my-5">
@@ -62,9 +73,9 @@
                 <div class="text-center">
                     <a href="#"><img src="{{ asset('assets/images/logo-dark.svg') }}" alt="img" /></a>
                 </div>
-                <h4 class="text-center f-w-500 my-3">{{ __('Login form') }}</h4>
+                <h4 class="text-center f-w-500 my-3">{{ __('messages.login_form') }}</h4>
                 <div class="mb-3">
-                    <input type="email" class="form-control" id="email" name="email" placeholder="{{ __('Email Address') }}">
+                    <input type="email" class="form-control" id="email" name="email" placeholder="{{ __('messages.email_address') }}">
                     @if ($errors->has('email'))
 						<div class="text-danger mt-2">
 							{{ $errors->first('email') }}
@@ -72,7 +83,7 @@
 					@endif
                 </div>
                 <div class="mb-3">
-                    <input type="password" class="form-control" id="password" name="password" placeholder="{{ __('Password') }}">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="{{ __('messages.password') }}">
                     @if ($errors->has('password'))
 						<div class="text-danger mt-2">
 							{{ $errors->first('password') }}
@@ -80,14 +91,14 @@
 					@endif
                 </div>
                 <h6 class="text-secondary f-w-400 mb-0 text-end">
-                    <a href="{{ route('password.request') }}"> {{ __('Forgot your password?') }} </a>
+                    <a href="{{ route('password.request') }}"> {{ __('messages.forgot_password') }} </a>
                 </h6>
                 <div class="d-grid mt-4">
-                    <button type="submit" class="btn btn-primary">{{ __('Login') }}</button>
+                    <button type="submit" class="btn btn-primary">{{ __('messages.login') }}</button>
                 </div>
                 <div class="d-flex justify-content-between align-items-end mt-4">
-                    <h6 class="f-w-500 mb-0">{{ __("Don't have an Account?") }}</h6>
-                    <a href="{{ route('register') }}" class="link-primary">{{ __('Create Account') }}</a>
+                    <h6 class="f-w-500 mb-0">{{ __("messages.no_account") }}</h6>
+                    <a href="{{ route('register') }}" class="link-primary">{{ __('messages.create_account') }}</a>
                 </div>
             </form>
 

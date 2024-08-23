@@ -17,7 +17,7 @@
 </x-app-layout> --}}
 
 @extends('layouts.main')
-@section('title', 'Leads Dashboard')
+@section('title', __('messages.dashboard'))
 @section('content')
 
     <div class="pc-container">
@@ -27,13 +27,13 @@
                 <div class="row align-items-center">
                     <div class="col-md-12">
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ route('lead.index') }}">Leads</a></li>
-                        <li class="breadcrumb-item" aria-current="page">Dashboard</li>
+                        <li class="breadcrumb-item"><a href="{{ route('lead.index') }}">{{ __('messages.leads') }}</a></li>
+                        <li class="breadcrumb-item" aria-current="page">{{ __('messages.dashboard') }}</li>
                     </ul>
                     </div>
                     <div class="col-md-12">
                     <div class="page-header-title">
-                        <h2 class="mb-0">Dashboard</h2>
+                        <h2 class="mb-0">{{ __('messages.dashboard') }}</h2>
                     </div>
                     </div>
                 </div>
@@ -73,7 +73,7 @@
                                     </div>
                                 </div>
                                 <div class="flex-grow-1 ms-3">
-                                    <h6 class="mb-0">Published Leads</h6>
+                                    <h6 class="mb-0">{{ __('messages.published_leads') }}</h6>
                                 </div>
                             </div>
 
@@ -129,7 +129,7 @@
                                     </div>
                                 </div>
                                 <div class="flex-grow-1 ms-3">
-                                    <h6 class="mb-0">Pending Leads</h6>
+                                    <h6 class="mb-0">{{ __('messages.pending_leads') }}</h6>
                                 </div>
                             </div>
 
@@ -164,7 +164,7 @@
                                     </div>
                                 </div>
                                 <div class="flex-grow-1 ms-3">
-                                    <h6 class="mb-0">Total Partners</h6>
+                                    <h6 class="mb-0">{{ __('messages.total_partners') }}</h6>
                                 </div>
                             </div>
 

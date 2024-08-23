@@ -33,7 +33,8 @@ class LeadPublishedNotification extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Lead Published Notification',
+            // subject: 'Lead Published Notification',
+            subject: __('messages.lead_published_notification'),
         );
     }
 

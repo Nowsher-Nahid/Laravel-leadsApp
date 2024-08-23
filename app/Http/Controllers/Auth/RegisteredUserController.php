@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\EmailSettings;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -30,9 +31,6 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            // 'name' => ['required', 'string', 'max:255'],
-            // 'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            // 'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
@@ -53,9 +51,6 @@ class RegisteredUserController extends Controller
         }
 
         $user = User::create([
-            // 'name' => $request->name,
-            // 'email' => $request->email,
-            // 'password' => Hash::make($request->password),
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
@@ -64,6 +59,12 @@ class RegisteredUserController extends Controller
             'company_vat' => $request->company_vat,
             'profile_picture' => $profilePicturePath,
             'password' => Hash::make($request->password),
+        ]);
+
+        EmailSettings::create([
+            'user_id' => $user->id,
+            'job_type' => json_encode(["Website laten maken", "Webshop laten maken", "Redesign bestaande website"], JSON_UNESCAPED_UNICODE),
+            'budget' => json_encode(["Minder dan €1000", "€1000 - €2000", "Meer dan €2000", "Geen idee"], JSON_UNESCAPED_UNICODE),
         ]);
 
         event(new Registered($user));

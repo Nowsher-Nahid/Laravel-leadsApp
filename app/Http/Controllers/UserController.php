@@ -97,7 +97,7 @@ class UserController extends Controller
         }
 
         $user->update($data);
-        return redirect()->back()->with('success', 'Data updated successfully.');
+        return redirect()->back()->with('success', __('messages.data_updated'));
     }
 
     /**
